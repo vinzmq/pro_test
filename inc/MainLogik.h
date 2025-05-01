@@ -1,24 +1,23 @@
+#ifndef MAINLOGIK_H
+#define MAINLOGIK_H
+
+
 #include "queue"
 #include <tuple>
-#include <thread>
 
 template <typename T, typename... Args>
-class MainLogik {
+class MainLogik 
+{
 public:
-    MainLogik() : tasks(std::make_tuple(Args(input_queue, double_queue)...))
-    {
-        
-    }
+    MainLogik() : tasks(std::make_tuple(Args()...)){}
 
     void runTasks()
     {
-        std::apply([](auto&... args) {
-            // args... is a pack of the elements in the tuple
-            (args.startThread() , ...);
+        std::apply([&](auto&... args) {            
+            (args.startThread(input_queue, double_queue) , ...);
         }, tasks);
 
-        std::apply([](auto&... args) {
-            // args... is a pack of the elements in the tuple
+        std::apply([](auto&... args) {          
             (args.joinThread() , ...);
         }, tasks);
     }
@@ -30,7 +29,6 @@ private:
 
     std::tuple<Args...> tasks;
 
-
-    
-
 };
+
+#endif

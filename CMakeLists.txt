@@ -13,8 +13,9 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
 
 add_executable(TestProcam
-  inc/MainLogik.h inc/Task_Double.h inc/Task_InputOuput.h
   src/main.cpp
+  inc/DoubleInt.h inc/InputOuputThread.h inc/MainLogik.h inc/ReverseString.h inc/Thread.h inc/WorkerThread.h
+
 )
 target_link_libraries(TestProcam Qt${QT_VERSION_MAJOR}::Core)
 

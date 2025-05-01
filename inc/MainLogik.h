@@ -10,12 +10,12 @@ template <typename T, typename... Args>
 class MainLogik 
 {
 public:
-    MainLogik() : tasks(std::make_tuple(Args(input_queue, double_queue)...)){}
+    MainLogik() : tasks(std::make_tuple(Args()...)){}
 
     void runTasks()
     {
-        std::apply([](auto&... args) {            
-            (args.startThread() , ...);
+        std::apply([&](auto&... args) {            
+            (args.startThread(input_queue, double_queue) , ...);
         }, tasks);
 
         std::apply([](auto&... args) {          
@@ -28,7 +28,7 @@ private:
     std::queue<T> input_queue;
     std::queue<T> double_queue;
 
-    std::tuple<Args...> tasks;   
+    std::tuple<Args...> tasks;
 
 };
 

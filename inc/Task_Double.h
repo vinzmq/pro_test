@@ -7,29 +7,25 @@
 
 namespace pro
 {
-    template<typename T>
     class Task_Double 
     {
         private:
             std::thread thread;
-            std::queue<T> &input_queue_;
-            std::queue<T> &double_queue_;
-        public:
+            public:
 
-        Task_Double(std::queue<T> &input_queue, std::queue<T> &double_queue) : 
-        input_queue_(input_queue), double_queue_(double_queue)
-        {} 
+        Task_Double(){} 
         
-        void startThread()
+        template<typename T>
+        void startThread(std::queue<T> &input_queue, std::queue<T> &double_queue)
         {
-            thread = std::thread(&Task_Double::job,this, std::ref(input_queue_),std::ref(double_queue_));
+            thread = std::thread(&Task_Double::job<T>,this, std::ref(input_queue),std::ref(double_queue));
         }
         void joinThread()
         {
             if(thread.joinable())
                 thread.join();
         }
-
+        template<typename T>
         void job(std::queue<T>& inputQueue, std::queue<T>& doubleQueue)
         {
             while (true) {

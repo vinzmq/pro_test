@@ -8,7 +8,7 @@
 
 int main() {
 
-    MainLogik<int, pro::Task_InputOutput<int>, pro::Task_Double<int>> show;
+    MainLogik<int, pro::Task_InputOutput, pro::Task_Double> show;
     show.runTasks();
     return 0;
 }

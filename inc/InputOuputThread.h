@@ -1,5 +1,5 @@
-#ifndef TASK_INPUTOUTPUT_H
-#define TASK_INPUTOUTPUT_H
+#ifndef INPOUTPUTTHREAD_H
+#define INPOUTPUTTHREAD_H
 
 #include <iostream>
 #include <queue>
@@ -11,7 +11,7 @@
 namespace pro
 {
     
-    class Task_InputOutput : public Thread<Task_InputOutput>
+    class InputOutputThread : public Thread<InputOutputThread>
     {
 
         public:
@@ -34,7 +34,7 @@ namespace pro
                         while(doubleQueue.empty())
                         {}
                         // finish work condition
-                        if (in == 0)
+                        if (this->shouldBreak(in))
                             break;
                     }
                 }

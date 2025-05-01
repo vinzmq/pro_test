@@ -1,17 +1,24 @@
-#ifndef TASK_DOUBLE_H
-#define TASK_DOUBLE_H
+#ifndef WORKERTHREAD_H
+#define WORKERTHREAD_H
 
 #include <iostream>
 #include <queue>
 #include <thread>
+
 #include "Thread.h"
 
 namespace pro
 {
-    class Task_Double : public Thread<Task_Double>
+    template<typename Derived>
+    class WorkerThread : public Thread<WorkerThread<Derived>>
     {
         public:
-                     
+        template <typename T>
+        T action(const T &val)
+        {
+           return static_cast<Derived*>(this)->task(val);
+        }
+
         template<typename T>
         void process(std::queue<T>& inputQueue, std::queue<T>& doubleQueue)
         {
@@ -20,8 +27,8 @@ namespace pro
                     T in = inputQueue.front();
                     inputQueue.pop();
                     if (doubleQueue.empty())
-                        doubleQueue.push(in*2);
-                    if (in == 0)
+                        doubleQueue.push(this->action(in));
+                    if (this->shouldBreak(in))
                         break;            
                 }
             }

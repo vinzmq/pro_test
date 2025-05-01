@@ -4,7 +4,6 @@
 
 #include "queue"
 #include <tuple>
-#include <thread>
 
 template <typename T, typename... Args>
 class MainLogik 

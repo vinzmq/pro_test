@@ -4,29 +4,16 @@
 #include <iostream>
 #include <queue>
 #include <thread>
+#include "Thread.h"
 
 namespace pro
 {
-    class Task_Double 
+    class Task_Double : public Thread<Task_Double>
     {
-        private:
-            std::thread thread;
-            public:
-
-        Task_Double(){} 
-        
+        public:
+                     
         template<typename T>
-        void startThread(std::queue<T> &input_queue, std::queue<T> &double_queue)
-        {
-            thread = std::thread(&Task_Double::job<T>,this, std::ref(input_queue),std::ref(double_queue));
-        }
-        void joinThread()
-        {
-            if(thread.joinable())
-                thread.join();
-        }
-        template<typename T>
-        void job(std::queue<T>& inputQueue, std::queue<T>& doubleQueue)
+        void process(std::queue<T>& inputQueue, std::queue<T>& doubleQueue)
         {
             while (true) {
                 if (!inputQueue.empty()) {

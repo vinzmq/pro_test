@@ -2,11 +2,12 @@
 
 Object-oriented C++ application , that consists of two threads.
 
-There are three branches simple_solution, oop and same_qt.
+Branch main should run with QT environment.
 
-Feel free to use any of that. 
-
-To run the app from branches simple_solution and oop:
+To run the app from branch better_way or simple_solution or oop use:
   - mkdir build; cd build; cmake ..; make
 
-or start it in QT environment from branch same_qt;
+
+
+
+

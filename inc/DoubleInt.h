@@ -1,22 +1,21 @@
 #ifndef DOUBLEINT_H
 #define DOUBLEINT_H
 
-#include <iostream>
-#include <queue>
-#include <thread>
+#include "DataProcessor.h"
 
-#include "WorkerThread.h"
+#include <type_traits>
 
 namespace pro
 {
-    class DoubleInt : public WorkerThread<DoubleInt>
+    class DoubleInt : public DataProcessor<DoubleInt>
     {
         public:
-        template<typename T>
-        T task(const T & val) 
-        {
-            return val *2;  
-        }      
+
+            template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>        
+            T task(const T & val) 
+            {
+                return val *2;  
+            }      
 
     };
 

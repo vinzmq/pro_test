@@ -1,13 +1,15 @@
 
-#include "../inc/InputOuputThread.h"
 #include "../inc/DoubleInt.h"
-#include "../inc/MainLogik.h"
+#include "../inc/TerminalInputOuput.h"
+#include "../inc/TwoThreadsHandler.h"
 #include "../inc/ReverseString.h"
 
 
 int main() {
 
-    MainLogik<int, pro::InputOutputThread, pro::DoubleInt> show;
+   
+    TwoThreadsHandler<int, pro::TerminalInputOutput, pro::DoubleInt> show;
+    //TwoThreadsHandler<std::string, pro::TerminalInputOutput, pro::ReverseString> show;
     show.runTasks();
     return 0;
 }

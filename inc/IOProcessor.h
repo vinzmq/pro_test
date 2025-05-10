@@ -3,22 +3,12 @@
 
 namespace pro
 {
-    template<typename Derived>
+    template<typename T>
     class IOProcessor
     {
-        public:
-
-            template<typename T>
-            void writeData(T val) 
-            {
-                static_cast<Derived*>(this)->write(val);
-            }
-            template<typename T>
-            T readData(T)
-            {
-                T val= static_cast<Derived*>(this)->read(T{});
-                return val;
-            }
+        public:            
+            virtual void write(T val) = 0;
+            virtual T read(T) = 0;
 
     };
 

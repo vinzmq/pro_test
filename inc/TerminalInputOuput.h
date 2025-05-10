@@ -9,17 +9,18 @@
 
 namespace pro
 {
-    class TerminalInputOutput : public IOProcessor<TerminalInputOutput>
+    template<typename T>
+    class TerminalInputOutput : public IOProcessor<T>
     {
         public:
 
-            template<typename T>
-            void write(T val) 
+           
+            void write(T val) override
             {
                 std::cout << val<< std::endl;  
             }
-            template<typename T>
-            T read(T)
+
+            T read(T) override
             {
                 T val;
                 std::cin >> val;

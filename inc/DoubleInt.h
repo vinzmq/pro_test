@@ -7,14 +7,18 @@
 
 namespace pro
 {
-    class DoubleInt : public DataProcessor<DoubleInt>
+    template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+    class DoubleInt : public DataProcessor<T>
     {
-        public:
+        T m_v = 0;
 
-            template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>        
-            T task(const T & val) 
+        public:
+        DoubleInt(T s) : m_v(s){};
+        DoubleInt(){};
+                 
+            T processData(const T & val)  override
             {
-                return val *2;  
+                return val *2 + m_v;  
             }      
 
     };

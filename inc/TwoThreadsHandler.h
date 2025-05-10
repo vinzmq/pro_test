@@ -11,34 +11,41 @@
 #include <thread>
 
 
-template <typename T, typename Task1, typename Task2, typename = std::enable_if_t<std::is_base_of_v<pro::IOProcessor<Task1>, Task1> &&
-std::is_base_of_v<pro::DataProcessor<Task2>, Task2>>>
+template <typename T>
+
 class TwoThreadsHandler 
 {
 public:
-    TwoThreadsHandler(){}
 
-    void runTasks()
+    template<typename Task1 = pro::IOProcessor<T>, typename Task2 = pro::DataProcessor<T>>
+    TwoThreadsHandler(Task1 &v1 = pro::IOProcessor<T>{}, Task2 &v2 = pro::DataProcessor<T>{})
     {
-        thread1 = std::thread(&TwoThreadsHandler::process_thread_1,this, std::ref(input_queue),std::ref(double_queue));
-        thread2 = std::thread(&TwoThreadsHandler::process_thread_2,this, std::ref(input_queue),std::ref(double_queue));
+        runTasks(v1, v2);
+    }
+
+    template<typename Task1, typename Task2>
+    void runTasks( Task1 &t,  Task2 &t2)
+    {
+        thread1 = std::thread(&TwoThreadsHandler::process_thread_1<Task1>,this, std::ref(input_queue),std::ref(double_queue), std::ref(t));
+        thread2 = std::thread(&TwoThreadsHandler::process_thread_2<Task2>,this, std::ref(input_queue),std::ref(double_queue), std::ref(t2));
         if(thread1.joinable())
                 thread1.join();
         if(thread2.joinable())
                 thread2.join();
     }
 
-    void process_thread_1(std::queue<T>& inputQueue, std::queue<T>& doubleQueue)
+    template<typename Task1>
+    void process_thread_1(std::queue<T>& inputQueue, std::queue<T>& doubleQueue, Task1 &task1)
     {
         while (true) {
             if (!doubleQueue.empty()) 
             {
                 T data = doubleQueue.front();
                 doubleQueue.pop();
-                task1.writeData(data);
+                task1.write(data);
             } else 
             {
-                T in = task1.readData(T{});
+                T in = task1.read(T{});
                 inputQueue.push(in);
             
                 // wait until DoubleThread fills the queue
@@ -51,7 +58,8 @@ public:
         }
     }
 
-    void process_thread_2(std::queue<T>& inputQueue, std::queue<T>& doubleQueue)
+    template<typename Task2>
+    void process_thread_2(std::queue<T>& inputQueue, std::queue<T>& doubleQueue,  Task2 &task2)
     {
         while (true) {
             if (!inputQueue.empty()) {
@@ -67,9 +75,6 @@ public:
  
 
 private:
-    pro::IOProcessor<Task1> task1;
-    pro::DataProcessor<Task2> task2;
-
     pro::Breaker breaker;
     std::thread thread1;
     std::thread thread2;

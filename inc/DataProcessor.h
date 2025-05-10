@@ -4,14 +4,12 @@
 
 namespace pro
 {
-    template<typename Derived>
+    template<typename T>
     class DataProcessor {
         public:
-        template<typename T>
-        T processData(const T &val)
-        {
-           return static_cast<Derived*>(this)->task(val);
-        }     
+        
+        virtual T processData(const T &val)=0;
+  
     };
 
 }

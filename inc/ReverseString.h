@@ -11,12 +11,11 @@
 
 namespace pro
 {   
-    class ReverseString : public DataProcessor<ReverseString>
+    template<typename T, typename = std::enable_if_t<std::is_same_v<std::string, std::decay_t<T>>>>
+    class ReverseString : public DataProcessor<T>
     {
-        public:
-
-            template<typename T, typename = std::enable_if_t<std::is_same_v<std::string, std::decay_t<T>>>>
-            T task(const T & val) 
+        public:          
+            T processData(const T & val) override
             {
                 T reversedStr = val; // Create a copy
                 std::reverse(reversedStr.begin(), reversedStr.end());
